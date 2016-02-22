@@ -1,0 +1,34 @@
+{
+  "name": "arrilot/dotenv-php",
+  "license": "MIT",
+  "keywords": [
+    "dotenv",
+    "production"
+  ],
+  "authors": [
+    {
+      "name": "Nekrasov Ilya",
+      "email": "nekrasov.ilya90@gmail.com"
+    }
+  ],
+  "homepage": "https://github.com/arrilot/dotenv-php",
+  "require": {
+    "php": ">=5.4.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Arrilot\\DotEnv\\": "src/"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Arrilot\\Tests\\DotEnv\\": "tests/"
+    }
+  }
+}

@@ -2,12 +2,13 @@
 
 use Arrilot\DotEnv\DotEnv;
 
-if (! function_exists('env')) {
+if (!function_exists('env')) {
     /**
      * Get env variable.
      *
      * @param string $key
-     * @param mixed $default
+     * @param mixed  $default
+     *
      * @return mixed
      */
     function env($key, $default = null)

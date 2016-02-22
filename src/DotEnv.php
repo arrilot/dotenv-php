@@ -21,20 +21,25 @@ class DotEnv
     protected static $required = [];
 
     /**
+     * Were variables loaded?
+     *
+     * @var bool
+     */
+    protected static $isLoaded = false;
+
+    /**
      * Load .env.php file or array.
      *
      * @param string|array $source
+     *
      * @return void
      */
     public static function load($source)
     {
         self::$variables = is_array($source) ? $source : require $source;
+        self::$isLoaded = true;
 
-        foreach (self::$required as $key) {
-            if (!isset(self::$variables[$key])) {
-                throw new MissingVariableException(".env variable '{$key}' is missing");
-            }
-        }
+        self::checkRequiredVariables();
     }
 
     /**
@@ -51,7 +56,8 @@ class DotEnv
      * Get env variable.
      *
      * @param string $key
-     * @param mixed $default
+     * @param mixed  $default
+     *
      * @return mixed
      */
     public static function get($key, $default = null)
@@ -63,17 +69,30 @@ class DotEnv
      * Set env variable.
      *
      * @param string|array $keys
-     * @param mixed $value
+     * @param mixed        $value
+     *
      * @return void
      */
     public static function set($keys, $value = null)
     {
         if (is_array($keys)) {
-            foreach ($keys as $key => $val) {
-                self::$variables[$key] = $val;
-            }
+            self::$variables = array_merge(self::$variables, $keys);
         } else {
             self::$variables[$keys] = $value;
+        }
+    }
+
+    /**
+     * Set required variables.
+     *
+     * @param array $variables
+     */
+    public static function setRequired(array $variables)
+    {
+        self::$required = $variables;
+
+        if (self::$isLoaded) {
+            self::checkRequiredVariables();
         }
     }
 
@@ -85,15 +104,22 @@ class DotEnv
     public static function flush()
     {
         self::$variables = [];
+        self::$isLoaded = false;
     }
 
     /**
-     * Set required variables.
+     * Throw exception if any of required variables was not loaded.
      *
-     * @param array $variables
+     * @throws MissingVariableException
+     *
+     * @return void
      */
-    public static function setRequired(array $variables)
+    protected static function checkRequiredVariables()
     {
-        self::$required = $variables;
+        foreach (self::$required as $key) {
+            if (!isset(self::$variables[$key])) {
+                throw new MissingVariableException(".env variable '{$key}' is missing");
+            }
+        }
     }
 }

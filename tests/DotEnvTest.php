@@ -17,7 +17,7 @@ class DotEnvTest extends PHPUnit_Framework_TestCase
         DotEnv::load(__DIR__.'/fixtures/.env.php');
 
         $expected = [
-            'DB_USER' => 'root',
+            'DB_USER'     => 'root',
             'DB_PASSWORD' => 'secret',
         ];
 
@@ -75,7 +75,7 @@ class DotEnvTest extends PHPUnit_Framework_TestCase
 
         DotEnv::set([
             'DB_PASSWORD' => 'secret',
-            'DB_NAME' => 'test',
+            'DB_NAME'     => 'test',
         ]);
 
         $this->assertSame('root', DotEnv::get('DB_USER'));
@@ -89,7 +89,14 @@ class DotEnvTest extends PHPUnit_Framework_TestCase
 
         DotEnv::setRequired(['DB_USER', 'DB_PASSWORD']);
         DotEnv::load(['DB_USER' => 'root']);
+    }
 
+    public function test_it_throws_missing_var_exception_even_after_load()
+    {
+        $this->setExpectedException('Arrilot\DotEnv\Exceptions\MissingVariableException');
+
+        DotEnv::load(['DB_USER' => 'root']);
+        DotEnv::setRequired(['DB_USER', 'DB_PASSWORD']);
     }
 
     public function test_it_does_not_throw_missing_var_exception_if_all_required_vars_are_set()

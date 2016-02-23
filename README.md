@@ -114,7 +114,7 @@ If the variable is not loaded an exception will be thrown.
 
 ### Testing
 
-Q: Why are so many static calls being used? How am I supposed to mock them in tests?
+Q: Why are there so many static calls? How am I supposed to mock them in tests?
 
 A: You shouldn't mock `DotEnv` class. Just override what you need using `set` or `load` methods.
 Note that `load` method understands arrays too.

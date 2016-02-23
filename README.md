@@ -104,17 +104,17 @@ DotEnv::load([
 
 ### Other methods
 
-There is way to ensure that a specific variable dotenv variable exists.
+There is way to ensure that a specific dotenv variable exists.
 Example:
 
 ```php
 DotEnv::setRequired(['DB_USER', 'DB_PASSWORD']);
 ```
-This call must be done BEFORE `DotEnv::load`. If the variable is not loaded an exception will be thrown.
+If the variable is not loaded an exception will be thrown.
 
 ### Testing
 
-Q: Why are so many static calls being used? How I'm supposed to mock them in tests?
+Q: Why are so many static calls being used? How am I supposed to mock them in tests?
 
 A: You shouldn't mock `DotEnv` class. Just override what you need using `set` or `load` methods.
 Note that `load` method understands arrays too.

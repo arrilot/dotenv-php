@@ -3,7 +3,7 @@
 [![Build Status](https://img.shields.io/travis/arrilot/dotenv-php/master.svg?style=flat)](https://travis-ci.org/arrilot/dotenv-php)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/arrilot/dotenv-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/arrilot/dotenv-php/)
 
-#Simple dotenv for PHP
+# Simple dotenv for PHP
 
 ## Introduction
 

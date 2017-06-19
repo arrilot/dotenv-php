@@ -10,6 +10,7 @@ class DotEnvTest extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         DotEnv::flush();
+        DotEnv::setRequired([]);
     }
 
     public function test_it_can_load_env_file_and_gives_access_to_vars_using_all()
@@ -103,5 +104,43 @@ class DotEnvTest extends PHPUnit_Framework_TestCase
     {
         DotEnv::setRequired(['DB_USER', 'DB_PASSWORD']);
         DotEnv::load(['DB_USER' => 'root', 'DB_PASSWORD' => 'secret']);
+    }
+
+    public function test_it_can_copy_vars_to_putenv()
+    {
+        DotEnv::load([
+            'TEST_USER' => 'root',
+            'TEST_SOME_ARRAY' => ['FOO', 'BAR']
+        ]);
+        DotEnv::copyVarsToPutenv();
+
+        $this->assertSame('root', getenv('PHP_TEST_USER'));
+        $this->assertSame(['FOO', 'BAR'], unserialize(getenv('PHP_TEST_SOME_ARRAY')));
+    }
+
+    public function test_it_can_copy_vars_to_env()
+    {
+        DotEnv::load([
+            'TEST_USER' => 'root',
+            'TEST_SOME_ARRAY' => ['FOO', 'BAR']
+        ]);
+        DotEnv::copyVarsToEnv();
+
+        $this->assertSame('root', $_ENV['TEST_USER']);
+        $this->assertSame(['FOO', 'BAR'], $_ENV['TEST_SOME_ARRAY']);
+        unset($_ENV['TEST_USER'], $_ENV['TEST_SOME_ARRAY']);
+    }
+
+    public function test_it_can_copy_vars_to_server()
+    {
+        DotEnv::load([
+            'TEST_USER' => 'root',
+            'TEST_SOME_ARRAY' => ['FOO', 'BAR']
+        ]);
+        DotEnv::copyVarsToServer();
+
+        $this->assertSame('root', $_SERVER['TEST_USER']);
+        $this->assertSame(['FOO', 'BAR'], $_SERVER['TEST_SOME_ARRAY']);
+        unset($_SERVER['TEST_USER'], $_SERVER['TEST_SOME_ARRAY']);
     }
 }

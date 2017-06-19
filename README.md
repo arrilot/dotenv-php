@@ -17,7 +17,7 @@ The main reasons are:
 Many people are actually misuse those packages and use them to configure apps in production too.
 
 In contrast this package IS for production.
-It uses plain old php array for `.env` content and doesn't touch $_ENV or $_SERVER.
+It uses plain old php array for `.env` content and doesn't touch $_ENV or $_SERVER by default.
 As a result it's fast and secure but has less features.
 
 ## Installation
@@ -110,7 +110,15 @@ Example:
 ```php
 DotEnv::setRequired(['DB_USER', 'DB_PASSWORD']);
 ```
-If the variable is not loaded an exception will be thrown.
+If the variable is not loaded an `Arrilot\DotEnv\Exceptions\MissingVariableException` will be thrown.
+
+There are also convenient methods to copy all variables to `putenv()`, `$_ENV` or `$_SERVER` if you DO need it, but in most cases you don't
+
+```php
+DotEnv::copyVarsToPutenv($prefix = 'PHP_'); // putenv()
+DotEnv::copyVarsToEnv(); // $_ENV
+DotEnv::copyVarsToServer() // $_SERVER
+```
 
 ### Testing
 

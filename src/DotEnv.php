@@ -43,6 +43,42 @@ class DotEnv
     }
 
     /**
+     * Copy all variables to putenv().
+     *
+     * @param string $prefix
+     */
+    public static function copyVarsToPutenv($prefix = 'PHP_')
+    {
+        foreach (self::all() as $key => $value) {
+            if (is_object($value) || is_array($value)) {
+                $value = serialize($value);
+            }
+
+            putenv("{$prefix}{$key}={$value}");
+        }
+    }
+
+    /**
+     * Copy all variables to $_ENV.
+     */
+    public static function copyVarsToEnv()
+    {
+        foreach (self::all() as $key => $value) {
+            $_ENV[$key] = $value;
+        }
+    }
+
+    /**
+     * Copy all variables to $_SERVER.
+     */
+    public static function copyVarsToServer()
+    {
+        foreach (self::all() as $key => $value) {
+            $_SERVER[$key] = $value;
+        }
+    }
+
+    /**
      * Get env variables.
      *
      * @return array

@@ -65,9 +65,16 @@ You may pass a second parameter, which is gonna be used as default if variable i
 $dbUser = DotEnv::get('DB_USER', 'admin');
 ```
 
-There is a nice little global helper to avoid importing the class name e.t.c
+> Note
+This is the method you are going to use most of the time.
+It makes sense to add a global helper for it to avoid importing the class name and e.t.c.
 
 ```php
+function env($key, $default = null)
+{
+    return DotEnv::get($key, $default);
+}
+...
 $dbUser = env('DB_USER', 'admin');
 ```
 

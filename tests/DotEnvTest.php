@@ -15,7 +15,7 @@ class DotEnvTest extends PHPUnit_Framework_TestCase
 
     public function test_it_can_load_env_file_and_gives_access_to_vars_using_all()
     {
-        DotEnv::load(__DIR__.'/fixtures/.env.php');
+        DotEnv::load(__DIR__.'/fixtures/test_source.php');
 
         $expected = [
             'DB_USER'     => 'root',
@@ -49,16 +49,6 @@ class DotEnvTest extends PHPUnit_Framework_TestCase
         $this->assertSame('root', DotEnv::get('DB_USER', 'foo'));
         $this->assertSame(null, DotEnv::get('DB_PASSWORD'));
         $this->assertSame('foo', DotEnv::get('DB_PASSWORD', 'foo'));
-    }
-
-    public function test_env_helper()
-    {
-        DotEnv::load(['DB_USER' => 'root']);
-
-        $this->assertSame('root', env('DB_USER'));
-        $this->assertSame('root', env('DB_USER', 'foo'));
-        $this->assertSame(null, env('DB_PASSWORD'));
-        $this->assertSame('foo', env('DB_PASSWORD', 'foo'));
     }
 
     public function test_set_method_with_two_args()

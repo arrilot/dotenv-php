@@ -72,7 +72,7 @@ It makes sense to add a global helper for it to avoid importing the class name a
 ```php
 function env($key, $default = null)
 {
-    return DotEnv::get($key, $default);
+    return \Arrilot\DotEnv\DotEnv::get($key, $default);
 }
 ...
 $dbUser = env('DB_USER', 'admin');
